@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Afterglow — детейлинг-студия: полировка, химчистка, керамика, звёздное небо на заказ.">
+<style>html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}</style>
+<title>Afterglow</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;500;600&family=Golos+Text:wght@400;500;600&display=swap">
+<style>
+/* Layout: чёрный постер. Хромированный логотип слева сверху, шёпот-подписи справа, сетка 3×4 тёмных карточек с «фото» сверху, силуэт машины внизу и кнопка-таблетка. Одна тёмная тема по задумке. */
+:root {
+  --bg: #030304;
+  --card: #0a0b0e;
+  --line: rgba(255, 255, 255, 0.11);
+  --line-strong: rgba(255, 255, 255, 0.34);
+  --fg: #f1f2f4;
+  --muted: #8b8f99;
+  --chrome: linear-gradient(180deg, #ffffff 0%, #d4d7dc 34%, #7b7f87 52%, #eef0f3 72%, #a3a7af 100%);
+  --silver: linear-gradient(180deg, #f6f7f9, #a9adb5);
+  --font-display: "Unbounded", "Montserrat", Arial, sans-serif;
+  --font-body: "Golos Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background:
+    radial-gradient(ellipse 60% 40% at 85% 0%, rgba(255, 255, 255, 0.05), transparent 70%),
+    radial-gradient(ellipse 50% 30% at 0% 100%, rgba(255, 255, 255, 0.04), transparent 70%),
+    var(--bg);
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap {
+  width: min(1180px, 100%);
+  margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+a { color: inherit; }
+:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.caps {
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--muted);
+}
+.chrome {
+  background: var(--chrome);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.ico { width: 30px; height: 30px; stroke: currentColor; fill: none; stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+
+/* header */
+.top { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; padding-block: 36px 40px; flex-wrap: wrap; }
+.brand { position: relative; padding-right: 70px; }
+.logo {
+  display: inline-block;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.6rem, 8vw, 5.2rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  transform: skewX(-9deg);
+  transform-origin: left bottom;
+  filter: drop-shadow(0 2px 14px rgba(255, 255, 255, 0.12));
+}
+.spark {
+  position: absolute;
+  top: -26px;
+  right: -6px;
+  width: clamp(72px, 12vw, 120px);
+  height: auto;
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.55));
+}
+.tag { display: block; margin-top: 14px; padding-left: 10px; letter-spacing: 0.5em; font-size: 12px; }
+.side { text-align: right; display: grid; gap: 4px; justify-items: end; }
+.side span { display: block; }
+.side hr { width: 56px; border: 0; border-top: 1px solid var(--line-strong); margin: 18px 0 0; }
+
+/* title */
+.title-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; padding-bottom: 40px; flex-wrap: wrap; }
+.title-row h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2rem, 6.4vw, 4.6rem);
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+.title-row .sub { margin: 18px 0 0; font-size: clamp(11px, 2.6vw, 16px); letter-spacing: 0.4em; }
+.lead { margin: 22px 0 0; max-width: 54ch; color: #b7bac2; font-size: 16px; }
+.motto { text-align: right; max-width: 15ch; line-height: 2; }
+
+/* grid */
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.card {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  transition: border-color 0.25s;
+}
+.card:hover { border-color: var(--line-strong); }
+.art { position: relative; height: 150px; overflow: hidden; background: #060709; }
+.art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10, 11, 14, 0) 35%, var(--card) 100%); pointer-events: none; z-index: 3; }
+.body { position: relative; z-index: 4; display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 16px; align-items: center; padding: 6px 20px 22px; margin-top: -4px; }
+.body .ico { color: #e6e8ec; }
+.body h3 { margin: 0; font-size: 14px; font-weight: 500; letter-spacing: 0.17em; text-transform: uppercase; line-height: 1.4; }
+.body p { margin: 6px 0 0; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); line-height: 1.6; }
+.card.wide { grid-column: 1 / -1; }
+.card.wide .art { height: 96px; }
+
+/* card art, monochrome stand-ins for photos */
+.a-stars { background: radial-gradient(ellipse 80% 90% at 50% 0%, #15171c, #050607 80%); }
+.a-stars i { position: absolute; border-radius: 50%; background: #fff; animation: twinkle 3.6s ease-in-out infinite; }
+@keyframes twinkle { 0%, 100% { opacity: var(--o, 0.8); } 50% { opacity: calc(var(--o, 0.8) * 0.25); } }
+
+.a-glass {
+  background:
+    radial-gradient(circle at 32% 30%, rgba(255, 255, 255, 0.55) 0 1.5px, rgba(255, 255, 255, 0.14) 2.5px 5px, transparent 6px) 0 0 / 47px 39px,
+    radial-gradient(circle at 32% 30%, rgba(255, 255, 255, 0.5) 0 1px, rgba(255, 255, 255, 0.12) 2px 3.5px, transparent 4.5px) 17px 11px / 29px 31px,
+    radial-gradient(circle at 32% 30%, rgba(255, 255, 255, 0.5) 0 2px, rgba(255, 255, 255, 0.1) 3px 7px, transparent 8px) 9px 21px / 71px 63px,
+    linear-gradient(115deg, #0a0b0e 0 52%, rgba(255, 255, 255, 0.2) 56%, #0a0b0e 62%, #14161b);
+}
+.a-sale { background: radial-gradient(ellipse 60% 60% at 70% 55%, #1b1e25, #060709 75%); }
+.a-sale::before { content: ""; position: absolute; left: -8%; right: -8%; top: 46px; height: 220px; border-radius: 50% 50% 0 0 / 70% 70% 0 0; background: #040405; border-top: 1px solid rgba(255, 255, 255, 0.5); box-shadow: inset 0 12px 24px rgba(255, 255, 255, 0.05); }
+.a-sale::after { z-index: 3; }
+.a-sale b { position: absolute; z-index: 2; top: 74px; right: 22%; width: 54px; height: 5px; border-radius: 3px; background: linear-gradient(90deg, transparent, #fff 60%, rgba(255, 255, 255, 0.4)); transform: skewX(-30deg); box-shadow: 0 0 14px rgba(255, 255, 255, 0.55); }
+.a-sale b + b { right: 36%; top: 82px; width: 34px; opacity: 0.7; }
+
+.a-clean { background: linear-gradient(180deg, #14161b 0%, #07080a 60%); }
+.a-clean::before { content: ""; position: absolute; left: 0; right: 0; top: 54px; height: 2px; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent); }
+.a-clean::after { z-index: 3; }
+.a-clean b { position: absolute; z-index: 2; left: 0; right: 0; top: 62px; height: 70px; background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), transparent); transform: skewY(-4deg); }
+
+.a-seat {
+  background:
+    repeating-linear-gradient(45deg, transparent 0 24px, rgba(255, 255, 255, 0.11) 24px 25px),
+    repeating-linear-gradient(-45deg, transparent 0 24px, rgba(255, 255, 255, 0.11) 24px 25px),
+    radial-gradient(ellipse 70% 80% at 40% 20%, #23262d, #07080a 80%);
+}
+
+.a-fabric {
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.2) 0.8px, transparent 1.4px) 0 0 / 6px 6px,
+    radial-gradient(ellipse 70% 80% at 40% 30%, #1b1d22, #060709 85%);
+}
+.a-fabric b { position: absolute; z-index: 2; top: 18px; right: 20px; width: 92px; height: 20px; border-radius: 10px; background: linear-gradient(180deg, #3b3e46, #0b0c0f); border: 1px solid rgba(255, 255, 255, 0.18); transform: rotate(-24deg); }
+
+.a-swirl {
+  background:
+    repeating-conic-gradient(from 0deg at 30% 45%, rgba(255, 255, 255, 0.1) 0 0.7deg, transparent 0.7deg 5deg),
+    repeating-conic-gradient(from 25deg at 72% 60%, rgba(255, 255, 255, 0.08) 0 0.7deg, transparent 0.7deg 4.4deg),
+    linear-gradient(120deg, #0b0c0f 30%, #20232a 55%, #090a0c 80%);
+}
+
+.a-fog { background: radial-gradient(ellipse 80% 90% at 50% 100%, #14161b, #050608 80%); }
+.a-fog b { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(255, 255, 255, 0.24), transparent 68%); filter: blur(6px); }
+.a-fog b:nth-child(1) { width: 150px; height: 90px; left: 16%; top: 20px; }
+.a-fog b:nth-child(2) { width: 120px; height: 70px; left: 46%; top: 48px; opacity: 0.8; }
+.a-fog b:nth-child(3) { width: 90px; height: 60px; left: 68%; top: 12px; opacity: 0.6; }
+.a-fog em { position: absolute; z-index: 2; left: 14px; bottom: 26px; width: 22px; height: 58px; border-radius: 5px 5px 3px 3px; background: linear-gradient(90deg, #15171b, #3a3d44 45%, #0c0d10); }
+
+.a-under { background: linear-gradient(180deg, #0f1114, #040405); }
+.a-under::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, transparent 0 40px, rgba(255, 255, 255, 0.07) 40px 42px); transform: perspective(160px) rotateX(24deg); transform-origin: 50% 0; }
+.a-under b { position: absolute; z-index: 2; left: -4%; right: -4%; height: 14px; background: linear-gradient(180deg, #2c2f36, #0b0c0f 42%, #3d4048 62%, #0b0c0f); border-radius: 7px; }
+.a-under b:nth-child(1) { top: 34px; }
+.a-under b:nth-child(2) { top: 70px; }
+.a-under b:nth-child(3) { top: 106px; opacity: 0.8; }
+
+.a-lamp { background: radial-gradient(ellipse 70% 80% at 50% 50%, #14161b, #050607 85%); }
+.a-lamp b { position: absolute; top: 46px; width: 120px; height: 44px; border-radius: 60% 40% 50% 50% / 100% 100% 40% 40%; background: radial-gradient(ellipse at 60% 40%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.12) 55%, transparent 70%); border-top: 1px solid rgba(255, 255, 255, 0.55); }
+.a-lamp b:nth-child(1) { left: 12%; }
+.a-lamp b:nth-child(2) { right: 12%; transform: scaleX(-1); }
+
+.a-ceramic {
+  background:
+    radial-gradient(circle at 34% 30%, rgba(255, 255, 255, 0.6) 0 2px, rgba(255, 255, 255, 0.16) 3px 8px, transparent 9px) 0 0 / 62px 54px,
+    radial-gradient(circle at 34% 30%, rgba(255, 255, 255, 0.5) 0 1.5px, rgba(255, 255, 255, 0.12) 2px 5px, transparent 6px) 24px 20px / 38px 40px,
+    linear-gradient(160deg, #1d2027, #07080a 55%, #181a1f);
+}
+
+.a-interior { background: radial-gradient(ellipse 70% 80% at 50% 100%, #1a1c22, #050607 80%); }
+.a-interior b { position: absolute; z-index: 2; left: 50%; top: 52px; width: 230px; height: 230px; margin-left: -115px; border-radius: 50%; border: 18px solid #121316; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16), 0 -1px 0 rgba(255, 255, 255, 0.4); }
+
+.a-solder { background: radial-gradient(ellipse 70% 80% at 55% 55%, #1a1c21, #050607 85%); }
+.a-solder svg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; }
+.a-solder b { position: absolute; z-index: 2; left: 52%; top: 62px; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; background: #fff; box-shadow: 0 0 22px 9px rgba(255, 255, 255, 0.5); }
+
+.a-other { background: linear-gradient(90deg, #07080a, #0d0e11 50%, #07080a); }
+.a-other b { position: absolute; border-radius: 50%; background: radial-gradient(circle at 34% 30%, #3c3f46, #0d0e11 62%); border: 1px solid rgba(255, 255, 255, 0.12); }
+.a-other b:nth-child(1) { width: 92px; height: 92px; left: 8%; top: 18px; }
+.a-other b:nth-child(2) { width: 64px; height: 64px; left: 24%; top: 40px; }
+.a-other b:nth-child(3) { width: 110px; height: 110px; left: 58%; top: 12px; }
+.a-other b:nth-child(4) { width: 52px; height: 52px; left: 78%; top: 44px; }
+
+/* finale */
+.finale { position: relative; margin-top: 56px; min-height: 360px; display: flex; align-items: flex-end; overflow: hidden; border-top: 1px solid var(--line); }
+.finale svg.car { position: absolute; inset: auto 0 0 0; width: 100%; height: 100%; z-index: 0; }
+.finale::before { content: ""; position: absolute; right: 0; top: 70px; width: 38%; height: 3px; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55)); box-shadow: 0 0 22px rgba(255, 255, 255, 0.35); z-index: 0; }
+.finale .wrap { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: flex-end; gap: 28px; padding-block: 40px; flex-wrap: wrap; }
+.finale .left { max-width: 24ch; }
+.finale .left p.caps { margin: 0; line-height: 2.1; color: #c9ccd3; font-size: 13px; }
+.finale .left hr { width: 56px; border: 0; border-top: 1px solid var(--line-strong); margin: 22px 0 0; }
+.finale .note { margin: 18px 0 0; max-width: 30ch; font-size: 14px; color: var(--muted); letter-spacing: 0; text-transform: none; }
+.pill {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+  min-width: min(100%, 380px);
+  padding: 22px 30px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 99px;
+  background: rgba(8, 9, 11, 0.55);
+  backdrop-filter: blur(4px);
+  text-decoration: none;
+  transition: border-color 0.25s, background 0.25s;
+}
+.pill:hover { border-color: #fff; background: rgba(255, 255, 255, 0.06); }
+.pill b { display: block; font-weight: 500; font-size: 14px; letter-spacing: 0.2em; text-transform: uppercase; }
+.pill small { display: block; margin-top: 3px; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+
+/* request */
+.request { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); gap: 56px; padding-block: 84px; border-top: 1px solid var(--line); align-items: start; }
+.request h2 { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: clamp(1.7rem, 4.2vw, 2.9rem); line-height: 1.1; text-transform: uppercase; text-wrap: balance; }
+.request .intro p { margin: 20px 0 0; color: var(--muted); max-width: 38ch; }
+form { display: grid; gap: 22px; min-width: 0; }
+.row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+label.f { display: grid; gap: 8px; min-width: 0; }
+label.f > span, fieldset legend { font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--muted); padding: 0; }
+input[type="text"], textarea {
+  width: 100%;
+  font: 400 16px/1.4 var(--font-body);
+  color: var(--fg);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  padding: 14px;
+}
+textarea { resize: vertical; min-height: 96px; }
+input[type="text"]::placeholder, textarea::placeholder { color: var(--muted); opacity: 0.75; }
+input[type="text"]:focus-visible, textarea:focus-visible { outline: 0; border-color: #fff; box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.14); }
+fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+fieldset legend { margin-bottom: 12px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { position: relative; }
+.chip input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.chip span { display: block; padding: 9px 14px; font-size: 13px; border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 99px; color: var(--muted); background: rgba(255, 255, 255, 0.02); }
+.chip input:checked + span { color: #0a0b0e; background: var(--silver); border-color: #fff; }
+.chip input:focus-visible + span { outline: 2px solid #fff; outline-offset: 2px; }
+.err { color: #ffb9a8; font-size: 14px; min-height: 1.2em; margin: 0; }
+.btn-row { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+.btn {
+  font: 500 13px/1 var(--font-body);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 18px 28px;
+  border-radius: 99px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+}
+.btn:hover { border-color: #fff; }
+.btn.primary { background: var(--silver); color: #0a0b0e; border-color: #fff; }
+.btn.primary:hover { filter: brightness(1.08); }
+.result { display: grid; gap: 14px; padding: 22px; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--card); min-width: 0; }
+.result h3 { margin: 0; font-size: 14px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; }
+.result p { margin: 0; color: var(--muted); font-size: 15px; }
+.result pre { margin: 0; padding: 16px; background: #000; border: 1px solid var(--line); border-radius: 8px; font: 400 14px/1.6 ui-monospace, Menlo, Consolas, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+footer { border-top: 1px solid var(--line); padding-block: 28px 40px; }
+.foot { display: flex; align-items: center; gap: 24px; }
+.foot .line { flex: 1; border-top: 1px solid var(--line-strong); min-width: 24px; }
+.foot .caps { font-size: 11px; letter-spacing: 0.28em; color: #b9bcc4; }
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .request { grid-template-columns: minmax(0, 1fr); gap: 32px; padding-block: 60px; }
+}
+@media (max-width: 600px) {
+  .grid { grid-template-columns: minmax(0, 1fr); }
+  .row { grid-template-columns: minmax(0, 1fr); }
+  .top { padding-block: 28px 30px; }
+  .side { justify-items: start; text-align: left; }
+  .motto { text-align: left; max-width: none; }
+  .caps { letter-spacing: 0.24em; }
+  .tag { letter-spacing: 0.34em; font-size: 11px; }
+  .title-row .sub { letter-spacing: 0.26em; }
+  .foot { flex-wrap: wrap; gap: 10px; }
+  .foot .line { display: none; }
+  .pill { padding: 18px 22px; }
+  .finale { min-height: 420px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .a-stars i { animation: none; }
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.5c.6 5.4 3.6 8.6 9 9.5-5.4.9-8.4 4.1-9 9.5-.6-5.4-3.6-8.6-9-9.5 5.4-.9 8.4-4.1 9-9.5z"/></symbol>
+    <symbol id="i-glass" viewBox="0 0 24 24"><path d="M3 16c2-6 5.5-9 9-9s7 3 9 9c-6-2.6-12-2.6-18 0z"/><path d="M12 19.5L16 10"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M9 4h6v3H9z"/><path d="M7 5.5H6a1 1 0 00-1 1V20a1 1 0 001 1h12a1 1 0 001-1V6.5a1 1 0 00-1-1h-1"/><path d="M9 14l2.2 2.2L15.5 12"/></symbol>
+    <symbol id="i-spray" viewBox="0 0 24 24"><path d="M7 11h7v10H7z"/><path d="M8.5 11V8h4v3"/><path d="M12.5 8.5l4-1.5M17 10h3M16.5 5.5l2.5-1.5"/></symbol>
+    <symbol id="i-seat" viewBox="0 0 24 24"><path d="M9 3.5h3.5a2 2 0 012 2l.8 8H19a1.5 1.5 0 011.5 1.5V17H5v-2l1.3-8.6A3 3 0 019 3.5z"/><path d="M7 20.5h12M12 17v3.5"/></symbol>
+    <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M10 7c.4 3.4 2.1 5.1 5.5 5.5-3.4.4-5.1 2.1-5.5 5.5-.4-3.4-2.1-5.1-5.5-5.5C7.9 12.1 9.6 10.4 10 7z"/><path d="M18.5 3c.2 1.4.9 2.1 2.3 2.3-1.4.2-2.1.9-2.3 2.3-.2-1.4-.9-2.1-2.3-2.3 1.4-.2 2.1-.9 2.3-2.3z"/><path d="M18.5 16c.2 1.4.9 2.1 2.3 2.3-1.4.2-2.1.9-2.3 2.3-.2-1.4-.9-2.1-2.3-2.3 1.4-.2 2.1-.9 2.3-2.3z"/></symbol>
+    <symbol id="i-lotus" viewBox="0 0 24 24"><path d="M12 19c-4.2 0-7.2-3-8-7.4 3.2 0 6 1.2 8 4.2 2-3 4.8-4.2 8-4.2-.8 4.4-3.8 7.4-8 7.4z"/><path d="M12 16.2c-2.2-3.2-2.2-7.4 0-11.2 2.2 3.8 2.2 8 0 11.2z"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 5-3 8-7 9-4-1-7-4-7-9V6z"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="6.2"/><circle cx="12" cy="12" r="8.6" stroke-dasharray="3.1 2.4"/></symbol>
+    <symbol id="i-lamp" viewBox="0 0 24 24"><path d="M3 8.5c6-3.2 12-3.2 18 0l-1.8 7c-5 2.4-9.4 2.4-14.4 0z"/><path d="M7 11.2h5M7 13.7h8"/></symbol>
+    <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 3c3.6 4.6 5.8 7.8 5.8 10.8a5.8 5.8 0 01-11.6 0C6.2 10.8 8.4 7.6 12 3z"/><path d="M9.4 14.2a2.8 2.8 0 002.2 2.4"/></symbol>
+    <symbol id="i-wheel" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.2"/><path d="M3.2 11h6.6M14.2 11h6.6M12 14.2V21"/></symbol>
+    <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 3c.8 3.6 4.8 4.6 4.8 9.4a4.8 4.8 0 01-9.6 0c0-2.8 1.8-3.8 2-6.4C11 7 11.8 6 12 3z"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5.5h16v10H10.5L6 19v-3.5H4z"/><path d="M9.5 10.5h.01M14.5 10.5h.01"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M3 12h17M15 7l5 5-5 5"/></symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <h1 class="logo chrome">Afterglow</h1>
+      <svg class="spark" viewBox="0 0 100 100" aria-hidden="true">
+        <defs>
+          <radialGradient id="sg" cx="50%" cy="50%" r="50%">
+            <stop offset="0" stop-color="#fff"/>
+            <stop offset="1" stop-color="#cfd2d8"/>
+          </radialGradient>
+        </defs>
+        <path d="M50 0C51.6 36 62 48.4 100 50 62 51.6 51.6 64 50 100 48.4 64 38 51.6 0 50 38 48.4 48.4 36 50 0Z" fill="url(#sg)"/>
+      </svg>
+      <span class="caps tag">More than a clean car</span>
+    </div>
+    <div class="side caps">
+      <span>People</span>
+      <span>Cars</span>
+      <span>Emotions</span>
+      <hr>
+    </div>
+  </header>
+
+  <main>
+    <div class="title-row">
+      <div>
+        <h2 class="chrome">Наши услуги</h2>
+        <p class="caps sub">Забота в каждой детали</p>
+        <p class="lead">Мы возвращаем автомобилю блеск и чистоту, будто он только выехал из салона. Превращаем обычный уход за машиной в процесс восстановления эстетики.</p>
+      </div>
+      <p class="caps motto">Больше, чем просто детейлинг</p>
+    </div>
+
+    <section class="grid" id="uslugi" aria-label="Услуги">
+      <article class="card">
+        <div class="art a-stars" id="stars"></div>
+        <div class="body"><svg class="ico"><use href="#i-star"/></svg><div><h3>Звёздное небо</h3><p>Уникальная атмосфера в вашем автомобиле. Изготовление на заказ под ваш автомобиль (для Lada и возможно других моделей, уточнять)</p></div></div>
+      </article>
+      <article class="card">
+        <div class="art a-glass"></div>
+        <div class="body"><svg class="ico"><use href="#i-glass"/></svg><div><h3>Полировка стёкол</h3><p>Удаление водного камня и других загрязнений, создание гидрофоба</p></div></div>
+      </article>
+      <article class="card">
+        <div class="art a-sale"><b></b><b></b></div>
+        <div class="body"><svg class="ico"><use href="#i-check"/></svg><div><h3>Предпродажная подготовка</h3><p>Идеальный вид для уверенной продажи или особого события</p></div></div>
+      </article>
+
+      <article class="card">
+        <div class="art a-clean"><b></b></div>
+        <div class="body"><svg class="ico"><use href="#i-spray"/></svg><div><h3>Полная уборка салона</h3><p>Чистота во всех деталях</p></div></div>
+      </article>
+      <article class="card">
+        <div class="art a-fabric"><b></b></div>
+        <div class="body"><svg class="ico"><use href="#i-seat"/></svg><div><h3>Химчистка</h3><p>Глубокая чистка: сиденья, пластик, кожа, текстиль</p></div></div>
+      </article>
+      <article class="card">
+        <div class="art a-swirl"></div>
+        <div class="body"><svg class="ico"><use href="#i-sparkles"/></svg><div><h3>Полировка кузова</h3><p>Глубокая, с устранением дефектов ЛКП, или лёгкая: убираем «паутинку», восстанавливаем глубину и блеск</p></div></div>
+      </article>
+
+      <article class="card">
+        <div class="art a-fog"><b></b><b></b><b></b><em></em></div>
+        <div class="body"><svg class="ico"><use href="#i-lotus"/></svg><div><h3>Сухой туман</h3><p>Устранение неприятных запахов (разные вкусы)</p></div></div>
+      </article>
+      <article class="card">
+        <div class="art a-under"><b></b><b></b><b></b></div>
+        <div class="body"><svg class="ico"><use href="#i-shield"/></svg><div><h3>Антикор дна</h3><p>Защита от коррозии и внешних воздействий</p></div></div>
+      </article>
+      <article class="card">
+        <div class="art a-lamp"><b></b><b></b></div>
+        <div class="body"><svg class="ico"><use href="#i-lamp"/></svg><div><h3>Полировка фар</h3><p>Полировка и химическое восстановление</p></div></div>
+      </article>
+
+      <article class="card">
+        <div class="art a-ceramic"></div>
+        <div class="body"><svg class="ico"><use href="#i-drop"/></svg><div><h3>Керамическое покрытие</h3><p>Защита кузова и стойкий блеск</p></div></div>
+      </article>
+      <article class="card">
+        <div class="art a-interior"><b></b></div>
+        <div class="body"><svg class="ico"><use href="#i-wheel"/></svg><div><h3>Восстановление интерьера</h3><p>Кожа, пластик и элементы интерьера</p></div></div>
+      </article>
+      <article class="card">
+        <div class="art a-solder">
+          <svg viewBox="0 0 300 150" preserveAspectRatio="none" aria-hidden="true"><path d="M20 120L90 96 130 104 170 80 200 88 236 62 290 54" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.4"/><path d="M170 80L184 108 176 128" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1"/></svg><b></b>
+        </div>
+        <div class="body"><svg class="ico"><use href="#i-flame"/></svg><div><h3>Пайка пластика</h3><p>Трещины и разрывы на бампере и пластиковых деталях</p></div></div>
+      </article>
+
+      <article class="card wide">
+        <div class="art a-other"><b></b><b></b><b></b><b></b></div>
+        <div class="body"><svg class="ico"><use href="#i-gear"/></svg><div><h3>Другие услуги по запросу</h3><p>Уточняйте у нас</p></div></div>
+      </article>
+    </section>
+  </main>
+</div>
+
+<div class="finale">
+  <svg class="car" viewBox="0 0 1200 360" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <defs>
+      <linearGradient id="rim" x1="0" x2="1" y1="0" y2="0">
+        <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+        <stop offset="0.3" stop-color="#9ea2aa" stop-opacity="0.7"/>
+        <stop offset="0.52" stop-color="#fff"/>
+        <stop offset="0.74" stop-color="#8a8e96" stop-opacity="0.6"/>
+        <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <path d="M0 300C90 282 190 262 300 214 390 174 470 132 590 118 705 106 795 130 865 164 935 198 1035 238 1200 258L1200 360 0 360Z" fill="#040405"/>
+    <path d="M0 300C90 282 190 262 300 214 390 174 470 132 590 118 705 106 795 130 865 164 935 198 1035 238 1200 258" fill="none" stroke="url(#rim)" stroke-width="2.4"/>
+    <path d="M470 138C565 192 705 192 830 154" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="1.4"/>
+    <path d="M120 292C380 236 760 214 1100 262" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="1.2"/>
+    <path d="M352 196c32-20 66-8 74 0l-8 18c-30 8-60 4-72-6z" fill="#07080a" stroke="rgba(255,255,255,.3)" stroke-width="1.2"/>
+  </svg>
+  <div class="wrap">
+    <div class="left">
+      <p class="caps">Детали, которые создают эмоции</p>
+      <hr>
+      <p class="note">Afterglow — это внимание к деталям, которые обычно не замечают.</p>
+    </div>
+    <a class="pill" href="#zayavka">
+      <svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg>
+      <span><b>Запись и вопросы</b><small>Напишите нам</small></span>
+      <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg>
+    </a>
+  </div>
+</div>
+
+<div class="wrap">
+  <section class="request" id="zayavka">
+    <div class="intro">
+      <h2 class="chrome">Запись и вопросы</h2>
+      <p>Выберите услуги и оставьте контакт. Мы свяжемся, чтобы согласовать время и стоимость.</p>
+    </div>
+
+    <form id="form" novalidate>
+      <div class="row">
+        <label class="f" for="name"><span>Имя</span><input type="text" id="name" autocomplete="name" placeholder="Как к вам обращаться"></label>
+        <label class="f" for="contact"><span>Телефон или мессенджер</span><input type="text" id="contact" autocomplete="tel" placeholder="Как с вами связаться"></label>
+      </div>
+      <label class="f" for="car"><span>Автомобиль</span><input type="text" id="car" placeholder="Марка, модель, год"></label>
+
+      <fieldset>
+        <legend>Что нужно сделать</legend>
+        <div class="chips" id="chips"></div>
+      </fieldset>
+
+      <label class="f" for="note"><span>Комментарий</span><textarea id="note" placeholder="Что беспокоит, к какой дате нужен результат"></textarea></label>
+
+      <p class="err" id="err" role="alert"></p>
+      <div class="btn-row"><button class="btn primary" type="submit">Собрать заявку</button></div>
+      <div class="result" id="result" hidden>
+        <h3>Заявка собрана</h3>
+        <p>Скопируйте текст и отправьте его нам любым удобным способом.</p>
+        <pre id="out"></pre>
+        <div class="btn-row">
+          <button class="btn" type="button" id="copy">Скопировать</button>
+          <span class="caps" id="copied" aria-live="polite" style="letter-spacing:.14em"></span>
+        </div>
+      </div>
+    </form>
+  </section>
+
+  <footer>
+    <div class="foot">
+      <span class="caps">Detailing &amp; Custom</span>
+      <span class="line"></span>
+      <span class="caps">Cleaner. Brighter. Deeper.</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function () {
+  // звёзды на «потолке»
+  var sky = document.getElementById('stars');
+  for (var i = 0; i < 80; i++) {
+    var s = document.createElement('i');
+    var size = Math.random() < 0.12 ? 2.4 : (Math.random() < 0.4 ? 1.6 : 1);
+    s.style.left = (Math.random() * 100).toFixed(1) + '%';
+    s.style.top = (Math.random() * 82).toFixed(1) + '%';
+    s.style.width = s.style.height = size + 'px';
+    s.style.setProperty('--o', (0.45 + Math.random() * 0.55).toFixed(2));
+    s.style.animationDelay = (Math.random() * 4).toFixed(2) + 's';
+    s.style.animationDuration = (2.6 + Math.random() * 3).toFixed(2) + 's';
+    if (size > 2) s.style.boxShadow = '0 0 6px 1px rgba(255,255,255,.7)';
+    sky.appendChild(s);
+  }
+
+  // форма
+  var services = [
+    'Звёздное небо', 'Полировка стёкол', 'Предпродажная подготовка', 'Полная уборка салона',
+    'Химчистка', 'Полировка кузова', 'Сухой туман', 'Антикор дна', 'Полировка фар',
+    'Керамическое покрытие', 'Восстановление интерьера', 'Пайка пластика', 'Другое'
+  ];
+  var chips = document.getElementById('chips');
+  services.forEach(function (name, i) {
+    var l = document.createElement('label');
+    l.className = 'chip';
+    var inp = document.createElement('input');
+    inp.type = 'checkbox';
+    inp.id = 'svc' + i;
+    inp.value = name;
+    var sp = document.createElement('span');
+    sp.textContent = name;
+    l.appendChild(inp);
+    l.appendChild(sp);
+    chips.appendChild(l);
+  });
+
+  var form = document.getElementById('form');
+  var err = document.getElementById('err');
+  var result = document.getElementById('result');
+  var out = document.getElementById('out');
+  var copied = document.getElementById('copied');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = document.getElementById('name').value.trim();
+    var contact = document.getElementById('contact').value.trim();
+    var car = document.getElementById('car').value.trim();
+    var note = document.getElementById('note').value.trim();
+    var picked = Array.prototype.map.call(chips.querySelectorAll('input:checked'), function (n) { return n.value; });
+    if (!name || !contact) {
+      err.textContent = 'Укажите имя и телефон или мессенджер, чтобы мы могли с вами связаться.';
+      result.hidden = true;
+      return;
+    }
+    err.textContent = '';
+    var lines = ['Заявка в Afterglow', 'Имя: ' + name, 'Связь: ' + contact];
+    if (car) lines.push('Автомобиль: ' + car);
+    lines.push('Услуги: ' + (picked.length ? picked.join('; ') : 'нужна консультация'));
+    if (note) lines.push('Комментарий: ' + note);
+    out.textContent = lines.join('\n');
+    copied.textContent = '';
+    result.hidden = false;
+  });
+
+  document.getElementById('copy').addEventListener('click', function () {
+    var text = out.textContent;
+    function fallback() {
+      var range = document.createRange();
+      range.selectNodeContents(out);
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      copied.textContent = 'Текст выделен, скопируйте его';
+    }
+    try {
+      navigator.clipboard.writeText(text).then(function () { copied.textContent = 'Скопировано'; }, fallback);
+    } catch (e2) { fallback(); }
+  });
+})();
+</script>
+</body>
+</html>
