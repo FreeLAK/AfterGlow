@@ -249,6 +249,31 @@ a { color: inherit; }
 .link-btn.primary { background: var(--silver); color: #0a0b0e; border-color: #fff; }
 .link-btn.primary:hover { filter: brightness(1.08); background: var(--silver); }
 
+/* form */
+.intro .reach { margin-top: 40px; }
+form { display: grid; gap: 22px; min-width: 0; }
+.row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+label.f { display: grid; gap: 8px; min-width: 0; }
+label.f > span, fieldset legend { font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--muted); padding: 0; }
+input[type="text"], textarea { width: 100%; font: 400 16px/1.4 var(--font-body); color: var(--fg); background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 8px; padding: 14px; }
+textarea { resize: vertical; min-height: 96px; }
+input[type="text"]::placeholder, textarea::placeholder { color: var(--muted); opacity: 0.75; }
+input[type="text"]:focus-visible, textarea:focus-visible { outline: 0; border-color: #fff; box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.14); }
+fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+fieldset legend { margin-bottom: 12px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { position: relative; }
+.chip input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.chip span { display: block; padding: 9px 14px; font-size: 13px; border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 99px; color: var(--muted); background: rgba(255, 255, 255, 0.02); }
+.chip input:checked + span { color: #0a0b0e; background: var(--silver); border-color: #fff; }
+.chip input:focus-visible + span { outline: 2px solid #fff; outline-offset: 2px; }
+.err { color: #ffb9a8; font-size: 14px; min-height: 1.2em; margin: 0; }
+.send-row { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.send { display: inline-flex; align-items: center; gap: 12px; font: 500 13px/1 var(--font-body); letter-spacing: 0.2em; text-transform: uppercase; padding: 18px 28px; border-radius: 99px; border: 1px solid #fff; background: var(--silver); color: #0a0b0e; cursor: pointer; }
+.send .ico { width: 22px; height: 22px; }
+.send:hover { filter: brightness(1.08); }
+.status { font-size: 14px; color: var(--muted); max-width: 40ch; }
+
 footer { border-top: 1px solid var(--line); padding-block: 28px 40px; }
 .foot { display: flex; align-items: center; gap: 24px; }
 .foot .line { flex: 1; border-top: 1px solid var(--line-strong); min-width: 24px; }
@@ -256,7 +281,7 @@ footer { border-top: 1px solid var(--line); padding-block: 28px 40px; }
 
 @media (max-width: 900px) {
   .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .contact { grid-template-columns: minmax(0, 1fr); gap: 32px; padding-block: 60px; }
+  .contact { grid-template-columns: minmax(0, 1fr); gap: 40px; padding-block: 60px; }
 }
 @media (max-width: 600px) {
   .grid { grid-template-columns: minmax(0, 1fr); }
@@ -268,6 +293,7 @@ footer { border-top: 1px solid var(--line); padding-block: 28px 40px; }
   .title-row .sub { letter-spacing: 0.26em; }
   .foot { flex-wrap: wrap; gap: 10px; }
   .foot .line { display: none; }
+  .row { grid-template-columns: minmax(0, 1fr); }
   .pill { padding: 18px 22px; }
   .finale { min-height: 420px; }
 }
@@ -432,16 +458,37 @@ footer { border-top: 1px solid var(--line); padding-block: 28px 40px; }
   <section class="contact" id="zayavka">
     <div class="intro">
       <h2 class="chrome">Запись и вопросы</h2>
-      <p>Позвоните или напишите нам, и мы согласуем время и стоимость.</p>
-    </div>
-    <div class="reach">
-      <span class="caps">Телефон</span>
-      <a class="phone" href="tel:+79049141223">+7 904 914-12-23</a>
-      <div class="links">
-        <a class="link-btn primary" href="tel:+79049141223"><svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>Позвонить</a>
-        <a class="link-btn" href="https://t.me/+79049141223" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-plane"/></svg>Telegram</a>
+      <p>Заполните форму или свяжитесь с нами напрямую, и мы согласуем время и стоимость.</p>
+      <div class="reach">
+        <span class="caps">Телефон</span>
+        <a class="phone" href="tel:+79049141223">+7 904 914-12-23</a>
+        <div class="links">
+          <a class="link-btn primary" href="tel:+79049141223"><svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>Позвонить</a>
+          <a class="link-btn" href="https://t.me/+79049141223" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-plane"/></svg>Telegram</a>
+        </div>
       </div>
     </div>
+
+    <form id="form" novalidate>
+      <div class="row">
+        <label class="f" for="name"><span>Имя</span><input type="text" id="name" autocomplete="name" placeholder="Как к вам обращаться"></label>
+        <label class="f" for="contact"><span>Телефон или мессенджер</span><input type="text" id="contact" autocomplete="tel" placeholder="Как с вами связаться"></label>
+      </div>
+      <label class="f" for="car"><span>Автомобиль</span><input type="text" id="car" placeholder="Марка, модель, год"></label>
+
+      <fieldset>
+        <legend>Что нужно сделать</legend>
+        <div class="chips" id="chips"></div>
+      </fieldset>
+
+      <label class="f" for="note"><span>Комментарий</span><textarea id="note" placeholder="Что беспокоит, к какой дате нужен результат"></textarea></label>
+
+      <p class="err" id="err" role="alert"></p>
+      <div class="send-row">
+        <button class="send" type="submit"><svg class="ico" aria-hidden="true"><use href="#i-plane"/></svg>Отправить в Telegram</button>
+        <span class="status" id="status" aria-live="polite"></span>
+      </div>
+    </form>
   </section>
 
   <footer>
@@ -470,6 +517,66 @@ footer { border-top: 1px solid var(--line); padding-block: 28px 40px; }
     sky.appendChild(s);
   }
 
+  // форма
+  var services = [
+    'Звёздное небо', 'Полировка стёкол', 'Предпродажная подготовка', 'Полная уборка салона',
+    'Химчистка', 'Полировка кузова', 'Сухой туман', 'Антикор дна', 'Полировка фар',
+    'Керамическое покрытие', 'Восстановление интерьера', 'Пайка пластика', 'Другое'
+  ];
+  var chips = document.getElementById('chips');
+  services.forEach(function (name, i) {
+    var l = document.createElement('label');
+    l.className = 'chip';
+    var inp = document.createElement('input');
+    inp.type = 'checkbox';
+    inp.id = 'svc' + i;
+    inp.value = name;
+    var sp = document.createElement('span');
+    sp.textContent = name;
+    l.appendChild(inp);
+    l.appendChild(sp);
+    chips.appendChild(l);
+  });
+
+  var form = document.getElementById('form');
+  var err = document.getElementById('err');
+  var status = document.getElementById('status');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = document.getElementById('name').value.trim();
+    var contact = document.getElementById('contact').value.trim();
+    var car = document.getElementById('car').value.trim();
+    var note = document.getElementById('note').value.trim();
+    var picked = Array.prototype.map.call(chips.querySelectorAll('input:checked'), function (n) { return n.value; });
+    status.textContent = '';
+    if (!name || !contact) {
+      err.textContent = 'Укажите имя и телефон или мессенджер, чтобы мы могли с вами связаться.';
+      return;
+    }
+    err.textContent = '';
+    var lines = ['Заявка в Afterglow', 'Имя: ' + name, 'Связь: ' + contact];
+    if (car) lines.push('Автомобиль: ' + car);
+    lines.push('Услуги: ' + (picked.length ? picked.join('; ') : 'нужна консультация'));
+    if (note) lines.push('Комментарий: ' + note);
+    var text = lines.join('\n');
+
+    var a = document.createElement('a');
+    a.href = 'https://t.me/+79049141223?text=' + encodeURIComponent(text);
+    a.target = '_blank';
+    a.rel = 'noopener';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    var fallback = 'Если Telegram не открылся, позвоните нам по номеру выше.';
+    try {
+      navigator.clipboard.writeText(text).then(
+        function () { status.textContent = 'Текст скопирован. Если Telegram не открылся, вставьте его в чат с нами.'; },
+        function () { status.textContent = fallback; }
+      );
+    } catch (e2) { status.textContent = fallback; }
+  });
 })();
 </script>
 </body>
